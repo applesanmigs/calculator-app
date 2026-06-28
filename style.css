@@ -1,0 +1,109 @@
+:root {
+  --background: black;
+  --function: #828179;
+  --function_alt: #96968f;
+  --operator: #bd2119;
+  --operator_alt: #cc423f;
+  --number: #3b3531;
+  --number_alt: #59544f;
+  --text: white;
+  --text_dark: black;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial;
+  background-color: var(--background);
+  color: var(--text);
+  overflow: hidden;
+}
+
+.calculator {
+  width: min(400px, 100%);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  padding: 10px;
+  font-size: 40px;
+  font-weight: 300;
+}
+
+#output {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 15px;
+  flex: 1;
+}
+
+#result {
+  font-size: 52px;
+}
+
+.btn {
+  flex-basis: calc(25% - 10px);
+  margin: 5px;
+  font-size: 32px;
+  height: 72px;
+  border: 0;
+  border-radius: 24px;
+  cursor: pointer;
+  color: var(--text);
+  font-family: Arial;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-function {
+  color: var(--text_dark);
+}
+
+.btn-function,
+.btn-function:focus {
+  background-color: var(--function);
+}
+
+.btn-function:hover {
+  background-color: var(--function_alt);
+}
+
+.btn-operator,
+.btn-operator:focus {
+  background-color: var(--operator);
+}
+
+.btn-operator:hover {
+  background-color: var(--operator_alt);
+}
+
+.btn-number,
+.btn-number:focus {
+  background-color: var(--number);
+}
+
+.btn-number:hover {
+  background-color: var(--number_alt);
+}

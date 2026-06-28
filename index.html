@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="calculator">
+    <section id="output">
+      <output id="expression"></output>
+      <output id="result"></output>
+    </section>
+    <section id="input">
+      <button type="button" class="btn btn-function" data-action="clear" data-value="C">C</button>
+      <button type="button" class="btn btn-function" data-action="negate" data-value="+/-">+/-</button>
+      <button type="button" class="btn btn-function" data-action="modulo" data-value="%">%</button>
+      <button type="button" class="btn btn-operator" data-action="divide" data-value="/">&#247;</button>
+
+      <button type="button" class="btn btn-number" data-action="number" data-value="7">7</button>
+      <button type="button" class="btn btn-number" data-action="number" data-value="8">8</button>
+      <button type="button" class="btn btn-number" data-action="number" data-value="9">9</button>
+      <button type="button" class="btn btn-operator" data-action="multiply" data-value="*">&times;</button>
+
+      <button type="button" class="btn btn-number" data-action="number" data-value="4">4</button>
+      <button type="button" class="btn btn-number" data-action="number" data-value="5">5</button>
+      <button type="button" class="btn btn-number" data-action="number" data-value="6">6</button>
+      <button type="button" class="btn btn-operator" data-action="subtract" data-value="-">-</button>
+
+      <button type="button" class="btn btn-number" data-action="number" data-value="1">1</button>
+      <button type="button" class="btn btn-number" data-action="number" data-value="2">2</button>
+      <button type="button" class="btn btn-number" data-action="number" data-value="3">3</button>
+      <button type="button" class="btn btn-operator" data-action="add" data-value="+">+</button>
+
+      <button type="button" class="btn btn-number" data-action="decimal" data-value=".">.</button>
+      <button type="button" class="btn btn-number" data-action="number" data-value="0">0</button>
+      <button type="button" class="btn btn-number" data-action="backspace">&#9003;</button>
+      <button type="button" class="btn btn-operator" data-action="equate" data-value="=">=</button>
+    </section>
+  </main>
+</body>
+</html>
