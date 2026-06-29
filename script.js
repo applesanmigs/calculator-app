@@ -1,12 +1,19 @@
+// DOM
 // Access DOM elements of the calculator
 const inputBox = document.getElementById('input');
 const expressionOutput = document.getElementById('expression');
 const resultOutput = document.getElementById('result');
 
+// STATE
 // Define expression and result variable
 let expression = '';
 let result = '';
 
+// EVENT LISTENERS
+inputBox.addEventListener('click', buttonClick);
+document.addEventListener('keydown', handleKeydown);
+
+// EVENT HANDLERS
 // Define event handler for button clicks
 function buttonClick(event) {
   // Get values from clicked button
@@ -55,39 +62,82 @@ function buttonClick(event) {
   updateDisplay(expression, result);
 }
 
-inputBox.addEventListener('click', buttonClick);
+function handleKeydown(event) {
+  const key = event.key;
 
-function addValue(value) {
-  if(value === '.') {
-    // Find the index of the last operator in the expression
-    const lastOperatorIndex = expression.search(/[+\-*/]/);
-    // Find the index of the last decimal in the expression
-    const lastDecimalIndex = expression.lastIndexOf('.');
-    // Find the index of the last number in the expression
-    const lastNumberIndex = Math.max(
-      expression.lastIndexOf('+'),
-      expression.lastIndexOf('-'),
-      expression.lastIndexOf('*'),
-      expression.lastIndexOf('/')
-    );
-    // Check if first decimal in the current number or if the expression is empty
-    if(
-      (lastDecimalIndex < lastOperatorIndex ||
-        lastDecimalIndex < lastNumberIndex ||
-        lastDecimalIndex === -1) &&
-      (expression === '' ||
-        expression.slice(lastNumberIndex + 1).indexOf('-') === -1)
-    ) {
-      expression += value;
-    }
-  } else {
-    expression += value;
+  switch (key) {
+    case 'Enter':
+      equate();
+      break;
+    case 'Backspace':
+      backspace();
+      break;
+    case 'Escape':
+      clear();
+      break;
+    case '.':
+      addValue('.');
+      break;
+    case '+':
+    case '-':
+    case '*':
+    case '/':
+      addValue(key);
+      break;
+    default:
+      if (!isNaN(key)) {
+        addValue(key);
+      }
   }
+
+  updateDisplay(expression, result);
 }
 
+// DISPLAY
 function updateDisplay(expression, result) {
   expressionOutput.textContent = expression;
   resultOutput.textContent = result;
+}
+
+// HELPERS
+function isLastCharOperator() {
+  return isNaN(parseInt(expression.slice(-1)));
+}
+
+function startFromResult(value) {
+  expression += result + value;
+}
+
+function evaluateExpression() {
+  const evalResult = eval(expression);
+  // Checks if evalResult isNan or infinite
+  // If so, return a space charachter ''
+  return isNaN(evalResult) || !isFinite(evalResult)
+    ? ''
+    : parseFloat(evalResult.toFixed(10));
+}
+
+// CALCULATOR ACTIONS
+function addValue(value) {
+  if (value !== '.') {
+    expression += value;
+    return;
+  }
+
+  const lastOperator = Math.max(
+    expression.lastIndexOf('+'),
+    expression.lastIndexOf('-'),
+    expression.lastIndexOf('*'),
+    expression.lastIndexOf('/')
+  );
+
+  // Extract the current number after the last operator
+  const currentNumber = expression.slice(lastOperator + 1);
+
+  // Allow only one decimal per number
+  if (!currentNumber.includes('.')) {
+    expression += '.';
+  }
 }
 
 function clear() {
@@ -99,28 +149,9 @@ function backspace() {
   expression = expression.slice(0, -1);
 }
 
-function isLastCharOperator() {
-  return isNaN(parseInt(expression.slice(-1)));
-}
-
-function startFromResult(value) {
-  expression += result + value;
-}
-
 function equate() {
   result = evaluateExpression();
   expression = '';
-}
-
-function evaluateExpression() {
-  const evalResult = eval(expression);
-  // Checks if evalResult isNan or infinite
-  // If so, return a space charachter ''
-  return isNaN(evalResult) || !isFinite(evalResult)
-    ? ''
-    : evalResult < 1
-    ? parseFloat(evalResult.toFixed(10))
-    : parseFloat(evalResult.toFixed(2));
 }
 
 function negate() {

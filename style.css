@@ -1,11 +1,11 @@
 :root {
   --background: black;
-  --function: #828179;
-  --function_alt: #96968f;
-  --operator: #bd2119;
-  --operator_alt: #cc423f;
-  --number: #3b3531;
-  --number_alt: #59544f;
+  --function: #5f5e61;
+  --function_alt: #727275;
+  --operator: #2927d6;
+  --operator_alt: #3a7de0;
+  --number: #323236;
+  --number_alt: #3c3b40;
   --text: white;
   --text_dark: black;
 }
@@ -52,6 +52,10 @@ section {
   flex: 1;
 }
 
+#input {
+  padding-bottom: 5rem;
+}
+
 #result {
   font-size: 52px;
 }
@@ -62,7 +66,7 @@ section {
   font-size: 32px;
   height: 72px;
   border: 0;
-  border-radius: 24px;
+  border-radius: 100px;
   cursor: pointer;
   color: var(--text);
   font-family: Arial;
