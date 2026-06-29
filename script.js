@@ -16,6 +16,8 @@ document.addEventListener('keydown', handleKeydown);
 // EVENT HANDLERS
 // Define event handler for button clicks
 function buttonClick(event) {
+  console.log('CLICK:', event.target.textContent);
+
   // Get values from clicked button
   const target = event.target;
   const action = target.dataset.action;
@@ -38,11 +40,7 @@ function buttonClick(event) {
     case 'subtract':
     case 'multiply':
     case 'divide':
-      if(expression === '' && result !== '') {
-        startFromResult(value);
-      } else if(expression !== '' && !isLastCharOperator()) {
-        addValue(value);
-      }
+      handleOperator(value);
       break;
     case 'equate':
       equate();
@@ -60,6 +58,8 @@ function buttonClick(event) {
 
   // Update display
   updateDisplay(expression, result);
+
+  event.target.blur();
 }
 
 function handleKeydown(event) {
@@ -82,10 +82,10 @@ function handleKeydown(event) {
     case '-':
     case '*':
     case '/':
-      addValue(key);
+      handleOperator(key);
       break;
     default:
-      if (!isNaN(key)) {
+      if (/^\d$/.test(key)) {
         addValue(key);
       }
   }
@@ -99,13 +99,18 @@ function updateDisplay(expression, result) {
   resultOutput.textContent = result;
 }
 
+console.log({
+  expressionText: expressionOutput.textContent,
+  resultText: resultOutput.textContent
+});
+
 // HELPERS
 function isLastCharOperator() {
   return isNaN(parseInt(expression.slice(-1)));
 }
 
 function startFromResult(value) {
-  expression += result + value;
+  expression = result + value;
 }
 
 function evaluateExpression() {
@@ -117,8 +122,18 @@ function evaluateExpression() {
     : parseFloat(evalResult.toFixed(10));
 }
 
+function handleOperator(value) {
+  if (expression === '' && result !== '') {
+    startFromResult(value);
+  } else if (expression !== '' && !isLastCharOperator()) {
+    addValue(value);
+  }
+}
+
 // CALCULATOR ACTIONS
 function addValue(value) {
+  console.log('Adding:', value, 'to', expression);
+
   if (value !== '.') {
     expression += value;
     return;
@@ -150,8 +165,15 @@ function backspace() {
 }
 
 function equate() {
+  console.log('Before:', expression);
+
   result = evaluateExpression();
   expression = '';
+
+  console.log('After:', {
+    expression,
+    result
+  })
 }
 
 function negate() {
