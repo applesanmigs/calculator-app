@@ -97,6 +97,25 @@ function handleKeydown(event) {
 function updateDisplay(expression, result) {
   expressionOutput.textContent = expression;
   resultOutput.textContent = result;
+
+  resultOutput.classList.toggle(
+  'error',
+  result === 'Error'
+  );
+
+  if (expression !== '') {
+    expressionOutput.classList.add('active');
+    expressionOutput.classList.remove('inactive');
+
+    resultOutput.classList.add('inactive');
+    resultOutput.classList.remove('active');
+  } else {
+    resultOutput.classList.add('active');
+    resultOutput.classList.remove('inactive');
+
+    expressionOutput.classList.add('inactive');
+    expressionOutput.classList.remove('active');
+  }
 }
 
 console.log({
@@ -114,15 +133,25 @@ function startFromResult(value) {
 }
 
 function evaluateExpression() {
-  const evalResult = eval(expression);
+  try {
+    const evalResult = eval(expression);
+
   // Checks if evalResult isNan or infinite
   // If so, return a space charachter ''
   return isNaN(evalResult) || !isFinite(evalResult)
-    ? ''
+    ? 'Error'
     : parseFloat(evalResult.toFixed(10));
+  } catch {
+    return 'Error';
+  }
 }
 
 function handleOperator(value) {
+  // Disable continuing from an error
+  if (result === 'Error') {
+    return;
+  }
+
   if (expression === '' && result !== '') {
     startFromResult(value);
   } else if (expression !== '' && !isLastCharOperator()) {
@@ -133,6 +162,11 @@ function handleOperator(value) {
 // CALCULATOR ACTIONS
 function addValue(value) {
   console.log('Adding:', value, 'to', expression);
+
+  // Clears when result is an error
+  if (result === 'Error') {
+    clear();
+  }
 
   if (value !== '.') {
     expression += value;
@@ -169,6 +203,10 @@ function equate() {
 
   result = evaluateExpression();
   expression = '';
+
+  resultOutput.classList.remove('pop');
+  void resultOutput.offsetWidth;
+  resultOutput.classList.add('pop');
 
   console.log('After:', {
     expression,

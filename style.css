@@ -8,6 +8,7 @@
   --number_alt: #3c3b40;
   --text: white;
   --text_dark: black;
+  --error: red;
 }
 
 *,
@@ -81,6 +82,10 @@ section {
   transform: scale(0.96);
 }
 
+btn:hover {
+  transform: translateY(-2px);
+}
+
 .btn-function {
   color: var(--text_dark);
 }
@@ -110,4 +115,31 @@ section {
 
 .btn-number:hover {
   background-color: var(--number_alt);
+}
+
+.error {
+  color: var(--error);
+}
+
+.pop {
+  animation: pop 0.2s ease;
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.inactive {
+  opacity: 0.5;
+}
+
+.active {
+  opacity: 1;
+}
+
+#expression,
+#result {
+  transition: opacity 0.2s ease;
 }
